@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Activity Log{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">🧾 Inventory Activity Log</h2>
+
+    {% if logs %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Item</th>
+                    <th>Action</th>
+                    <th>User</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.item }}</td>
+                    <td>{{ log.action|capitalize }}</td>
+                    <td>{{ log.user }}</td>
+                    <td>{{ log.timestamp }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p>No activity logs available.</p>
+    {% endif %}
+</div>
+{% endblock %}

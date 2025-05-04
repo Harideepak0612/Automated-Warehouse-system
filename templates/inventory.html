@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Inventory{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Current Inventory</h1>
+
+{% if current_user.role in ['admin', 'manager'] %}
+<!-- Import / Export / Generate PDF Section -->
+<div class="mb-3">
+    <form action="{{ url_for('import_csv') }}" method="post" enctype="multipart/form-data" class="form-inline">
+        <input type="file" name="file" class="form-control-file mr-2">
+        <button type="submit" class="btn btn-dark">Import File</button>
+    </form>
+
+    <div class="mt-2">
+        <a href="{{ url_for('export_csv') }}" class="btn btn-warning">Export File</a>
+        <a href="{{ url_for('generate_pdf') }}" class="btn btn-danger ml-2">Generate PDF</a>
+    </div>
+</div>
+
+<!-- Search and Sort -->
+<div class="row mb-3">
+    <div class="col-md-6">
+        <form action="{{ url_for('inventory') }}" method="get" class="form-inline">
+            <input type="text" name="search" class="form-control mr-2" placeholder="Search inventory..." value="{{ search_query or '' }}">
+            <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i> Search</button>
+        </form>
+    </div>
+    <div class="col-md-6 text-right">
+        <form action="{{ url_for('inventory') }}" method="get" class="form-inline">
+            <label for="sort" class="mr-2">Sort By:</label>
+            <select name="sort" class="form-control mr-2">
+                <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Name</option>
+                <option value="quantity" {% if sort_by == 'quantity' %}selected{% endif %}>Quantity</option>
+                <option value="category" {% if sort_by == 'category' %}selected{% endif %}>Category</option>
+            </select>
+
+            <label for="order" class="mr-2">Order:</label>
+            <select name="order" class="form-control mr-2">
+                <option value="asc" {% if order == 'asc' %}selected{% endif %}>Ascending</option>
+                <option value="desc" {% if order == 'desc' %}selected{% endif %}>Descending</option>
+            </select>
+
+            <input type="hidden" name="search" value="{{ search_query }}">
+            <button type="submit" class="btn btn-primary">Sort</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+<!-- Inventory Table -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            {% if current_user.role in ['admin', 'manager'] %}
+                <th>Last Updated Date</th>
+                <th>Last Updated Time</th>
+            {% endif %}
+            <th>Category</th>
+            <th>Storage Location</th>
+            {% if current_user.role in ['admin', 'manager'] %}
+                <th>Actions</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+            {% if current_user.role in ['admin', 'manager'] %}
+                <td>{{ item.date }}</td>
+                <td>{{ item.time }}</td>
+            {% endif %}
+            <td>{{ item.category }}</td>
+            <td>{{ item.location or 'N/A' }}</td>
+            {% if current_user.role in ['admin', 'manager'] %}
+                <td>
+                    <a href="{{ url_for('update_item_web', name=item.name) }}" class="btn btn-warning btn-sm">Update</a>
+                    <form action="{{ url_for('delete_item', name=item.name) }}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

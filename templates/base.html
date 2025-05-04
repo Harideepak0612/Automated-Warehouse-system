@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Inventory System{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            {% if current_user.is_authenticated %}
+    
+                {% if current_user.role == 'receiving_clerk' %}
+                    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link text-light" href="{{ url_for('inventory') }}">Inventory</a>
+                    <a class="nav-link text-light" href="{{ url_for('add_item_form') }}">Add Items</a>
+                    <a class="nav-link text-light" href="{{ url_for('receiving') }}">📦 Receive Items</a>
+                    <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+    
+                {% elif current_user.role == 'putaway_specialist' %}
+                    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link text-light" href="{{ url_for('inventory') }}">Inventory</a>
+                    <a class="nav-link text-light" href="{{ url_for('add_item_form') }}">Add Items</a>
+                    <a class="nav-link text-light" href="{{ url_for('putaway') }}">🏷️ Putaway</a>
+                    <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+    
+                {% elif current_user.role == 'order_picker' %}
+                    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link text-light" href="{{ url_for('inventory') }}">Inventory</a>
+                    <a class="nav-link text-light" href="{{ url_for('pick_items') }}">🛒 Pick List</a>
+                    <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+    
+                {% elif current_user.role == 'packer' %}
+                    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link text-light" href="{{ url_for('inventory') }}">Inventory</a>
+                    <a class="nav-link text-light" href="{{ url_for('pack_items') }}">🎁 Pack Items</a>
+                    <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+    
+                {% elif current_user.role == 'shipping_coordinator' %}
+                    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link text-light" href="{{ url_for('inventory') }}">Inventory</a>
+                    <a class="nav-link text-light" href="{{ url_for('ship_items') }}">🚚 Ship Items</a>
+                    <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+    
+                {% elif current_user.role == 'returns_processor' %}
+                    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link text-light" href="{{ url_for('returns') }}">🔁 Process Returns</a>
+                    <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+    
+                {% elif current_user.role == 'inventory_auditor' %}
+                    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link text-light" href="{{ url_for('adjust_inventory') }}">⚖️ Adjust Inventory</a>
+                    <a class="nav-link text-light" href="{{ url_for('cycle_count') }}">🔍 Cycle Count</a>
+                    <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+    
+                {% elif current_user.role == 'delivery_driver' %}
+                    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link text-light" href="{{ url_for('deliveries') }}">🚚 Deliveries</a>
+                    <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+    
+                {% elif current_user.role == 'maintenance_technician' %}
+                    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link text-light" href="{{ url_for('maintenance') }}">🛠️ Maintenance</a>
+                    <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+    
+                {% elif current_user.role == 'safety_supervisor' %}
+                    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link text-light" href="{{ url_for('safety_log') }}">🦺 Safety Log</a>
+                    <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+    
+                {% elif current_user.role in ['admin', 'manager'] %}
+                    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link text-light" href="{{ url_for('inventory') }}">Inventory</a>
+                    <a class="nav-link text-light" href="{{ url_for('add_item_form') }}">Add Items</a>
+                    <a class="nav-link text-light" href="{{ url_for('dashboard') }}">Dashboard</a>
+                    {% if current_user.role == 'admin' %}
+                        <a class="nav-link text-warning" href="{{ url_for('admin') }}">Admin Panel</a>
+                    {% endif %}
+                    <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

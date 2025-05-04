@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Cycle Count{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">🔍 Cycle Count</h2>
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Item</th>
+                <th>System Quantity</th>
+                <th>Your Count</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <form method="POST">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <input type="number" name="counted_quantity" class="form-control" required>
+                        <input type="hidden" name="name" value="{{ item.name }}">
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-info btn-sm">Verify</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if mismatches %}
+    <hr>
+    <h4 class="text-danger">❗Mismatches Found</h4>
+    <ul>
+        {% for mismatch in mismatches %}
+        <li>{{ mismatch.name }}: System = {{ mismatch.system_qty }}, Counted = {{ mismatch.counted_qty }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% endblock %}

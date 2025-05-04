@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Deliveries{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">🚚 Deliver Shipped Items</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Address</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.doc_id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.assigned_quantity }}</td>
+                <td>{{ item.address }}</td>
+                <td>{{ item.date }}</td>
+                <td>
+                    <form method="POST" class="d-flex align-items-center">
+                        <input type="hidden" name="item_id" value="{{ item.doc_id }}">
+                
+                        <select name="action" class="form-select form-select-sm me-2" required onchange="toggleReason(this, '{{ item.doc_id }}')">
+                            <option value="delivered">Delivered</option>
+                            <option value="returned">Returned</option>
+                        </select>
+                        
+                
+                        <input type="text" name="reason" id="reason_{{ item.doc_id }}" class="form-control form-control-sm me-2" placeholder="Reason for return" style="display: none;">
+                
+                        <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                    </form>
+                </td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+    function toggleReason(select, id) {
+        const reasonField = document.getElementById("reason_" + id);
+        if (select.value === "returned") {
+            reasonField.style.display = "block";
+            reasonField.required = true;
+        } else {
+            reasonField.style.display = "none";
+            reasonField.required = false;
+        }
+    }
+    </script>
+    
+{% endblock %}

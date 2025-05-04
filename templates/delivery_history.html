@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Delivery History{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">📦 Delivery History</h2>
+    {% if history %}
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Delivered By (User ID)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in history %}
+            <tr>
+                <td>{{ item['item_name'] }}</td>
+                <td>{{ item['quantity'] }}</td>
+                <td>{{ item['address'] }}</td>
+                <td>{{ item['date'] }}</td>
+                <td>{{ item['time'] }}</td>
+                <td>{{ item['status'] }}</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+    {% else %}
+    <p>No delivery records yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- Top-right: Log Summary Button -->
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ url_for('log_summary') }}" class="btn btn-outline-primary">📊 View Log Summary</a>
+    </div>
+
+    <!-- Main Heading -->
+    <h2>Admin Panel</h2>
+
+    <!-- Add New User Form -->
+    <h4 class="mt-4">Add New User</h4>
+    <form method="POST">
+        <div class="form-group">
+            <label>Username:</label>
+            <input type="text" name="username" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Password:</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Role:</label>
+            <select name="role" class="form-control">
+                <option value="admin">Admin</option>
+                <option value="manager">Manager</option>
+                <option value="receiving_clerk">Receiving Clerk</option>
+                <option value="putaway_specialist">Putaway Specialist</option>
+                <option value="order_picker">Order Picker</option>
+                <option value="packer">Packer</option>
+                <option value="shipping_coordinator">Shipping Coordinator</option>
+                <option value="returns_processor">Returns Processor</option>
+                <option value="inventory_auditor">Inventory Auditor</option>
+                <option value="maintenance_tech">Maintenance Technician</option>
+                <option value="safety_supervisor">Safety Supervisor</option>
+                <option value="delivery_driver">Delivery Driver</option>
+                <option value="safety_supervisor">Safety Supervisor</option>
+            </select>
+            
+        </div>
+        <button type="submit" class="btn btn-success">Add User</button>
+    </form>
+
+    <!-- Existing Users -->
+    <h4 class="mt-4">Existing Users</h4>
+    <ul class="list-group">
+        {% for username, data in users.items() %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ username }} ({{ data.role }})
+            {% if username != "admin" %}
+                <form action="{{ url_for('remove_user', username=username) }}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-danger btn-sm">Remove Access</button>
+                </form>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}

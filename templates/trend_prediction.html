@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}Trend Prediction{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">🔮 Predictive Inventory Trend Analysis</h2>
+
+    <!-- 📄 Export Button -->
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ url_for('export_trend_pdf') }}" class="btn btn-outline-secondary" target="_blank">📄 Export as PDF</a>
+    </div>
+
+    <!-- Line Chart -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="text-center">Total Stock Forecast (Next Month Included)</h5>
+            <canvas id="trendChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Summary Table -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="mb-3">Item-wise Stock Forecast Table</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm">
+                    <thead class="table-light">
+                        <tr id="monthHeaderRow">
+                            <th>Item</th>
+                            <!-- Dynamic Month Columns -->
+                        </tr>
+                    </thead>
+                    <tbody id="predictionTableBody">
+                        <!-- Dynamic Table Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Smart Restock Alerts Section -->
+    <div class="card mt-4 shadow-sm">
+        <div class="card-header bg-warning text-dark">
+            ⚠️ Restock Priority Alerts (Class A & B)
+        </div>
+        <div class="card-body">
+            <ul id="alertList" class="list-group">
+                <!-- Filled dynamically by JavaScript -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Reorder Suggestion Plan -->
+    <div class="text-center mt-3">
+        <button id="showReorderPlan" class="btn btn-outline-primary">📋 Generate Reorder Plan</button>
+    </div>
+
+    <div id="reorderPlan" class="mt-4" style="display:none;">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">📦 Suggested Reorder Plan</div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Restock Quantity</th>
+                            <th>ABC Class</th>
+                            <th>Suggested Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reorderBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("/trend_prediction_data")
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            const months = data.months;
+            const predictionData = data.prediction_data;
+
+            console.log("📦 Prediction Data:", predictionData);
+            console.log("📅 Months:", months);
+
+            // Create header row
+            const headerRow = document.getElementById("monthHeaderRow");
+            months.forEach(month => {
+                const th = document.createElement("th");
+                th.textContent = month;
+                headerRow.appendChild(th);
+            });
+
+            // Fill table body
+            const tableBody = document.getElementById("predictionTableBody");
+            const totalPerMonth = new Array(months.length).fill(0);
+
+            for (const item in predictionData) {
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${item}</td>`;
+
+                months.forEach((month, i) => {
+                    const qty = predictionData[item][month] || 0;
+
+                    if (month === "Predicted Stock") {
+                        row.innerHTML += `<td class="text-warning font-weight-bold">${qty}</td>`;
+                    } else if (month === "Restock Needed") {
+                        row.innerHTML += `<td class="text-danger font-weight-bold">${qty}</td>`;
+                    } else if (month === "ABC Class") {
+                        row.innerHTML += `<td class="text-primary fw-bold">${qty}</td>`;
+                    } else {
+                        row.innerHTML += `<td>${qty}</td>`;
+                        totalPerMonth[i] += qty;
+                    }
+                });
+
+                tableBody.appendChild(row);
+            }
+
+            // Build chart
+            const ctx = document.getElementById("trendChart").getContext("2d");
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: "Total Stock Added (Predicted Included)",
+                        data: totalPerMonth,
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                        fill: true,
+                        tension: 0.3,
+                        pointStyle: "circle",
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                }
+            });
+
+            // Inject alert list
+            const alertList = document.getElementById("alertList");
+            if (data.alert_items && data.alert_items.length > 0) {
+                data.alert_items.forEach(item => {
+                    let color = item.class === "A" ? "danger" : "warning";
+                    const li = document.createElement("li");
+                    li.className = `list-group-item d-flex justify-content-between align-items-center list-group-item-${color}`;
+                    li.innerHTML = `<strong>${item.name}</strong> <span>${item.restock} units (Class ${item.class})</span>`;
+                    alertList.appendChild(li);
+                });
+            } else {
+                alertList.innerHTML = `<li class='list-group-item text-success'>✅ No urgent restocks needed.</li>`;
+            }
+
+            // Show reorder plan
+            document.getElementById("showReorderPlan").addEventListener("click", function () {
+                const reorderSection = document.getElementById("reorderPlan");
+                const reorderBody = document.getElementById("reorderBody");
+                reorderBody.innerHTML = "";
+
+                if (data.alert_items.length > 0) {
+                    data.alert_items.forEach(item => {
+                        reorderBody.innerHTML += `
+                            <tr>
+                                <td>${item.name}</td>
+                                <td>${item.restock}</td>
+                                <td>${item.class}</td>
+                                <td><span class="badge bg-success">Order Recommended</span></td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    reorderBody.innerHTML = "<tr><td colspan='4' class='text-success'>No restocks required.</td></tr>";
+                }
+
+                reorderSection.style.display = "block";
+            });
+        })
+        .catch(error => {
+            console.error("Error loading prediction data:", error);
+            alert("Error loading prediction data.");
+        });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Track Item{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">📍 Track Item Process</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Item Name</th>
+                <th>Order ID</th>
+                <th>Assigned Quantity</th>
+                <th>Last Updated Date</th>
+                <th>Last Updated Time</th>
+                <th>Current Stage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.order_id if item.order_id is defined else 'N/A' }}</td>
+                <td>{{ item.assigned_quantity if item.assigned_quantity is defined else item.quantity }}</td>
+                <td>{{ item.date }}</td>
+                <td>{{ item.time }}</td>
+                <td>
+                    {% if item.status == 'received' %}
+                        <span class="badge bg-secondary">📦 Received</span>
+                    {% elif item.status == 'stored' %}
+                        <span class="badge bg-info text-dark">🏷️ Stored</span>
+                    {% elif item.status == 'picked' %}
+                        <span class="badge bg-primary">🛒 Picked</span>
+                    {% elif item.status == 'packed' %}
+                        <span class="badge bg-warning text-dark">🎁 Packed</span>
+                    {% elif item.status == 'shipped' %}
+                        <span class="badge bg-dark">🚚 Shipped</span>
+                    {% elif item.status == 'delivered' %}
+                        <span class="badge bg-success">✅ Delivered</span>
+                    {% elif item.status == 'returned' %}
+                        <span class="badge bg-danger">🔁 Returned</span>
+                    {% else %}
+                        <span class="badge bg-light text-dark">Unknown</span>
+                    {% endif %}
+                </td>
+            </tr>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

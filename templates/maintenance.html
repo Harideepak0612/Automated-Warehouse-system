@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Maintenance{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>🛠️ Maintenance Dashboard</h2>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5>Log Equipment Maintenance</h5>
+            <form method="POST">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Equipment</label>
+                        <select name="equipment_id" class="form-control" required>
+                            {% for eq in equipment %}
+                                <option value="{{ eq.id }}">{{ eq.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Status</label>
+                        <select name="status" class="form-control" required>
+                            <option value="active">Active</option>
+                            <option value="under_maintenance">Under Maintenance</option>
+                            <option value="repaired">Repaired</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Note (optional)</label>
+                        <input type="text" name="note" class="form-control" placeholder="e.g. replaced belt">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5>📋 Maintenance Logs</h5>
+            {% if logs %}
+                <table class="table table-bordered table-sm mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Equipment ID</th>
+                            <th>Status</th>
+                            <th>Note</th>
+                            <th>Timestamp</th>
+                            <th>Updated By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in logs %}
+                            <tr>
+                                <td>{{ log.equipment_id }}</td>
+                                <td>{{ log.status }}</td>
+                                <td>{{ log.note }}</td>
+                                <td>{{ log.timestamp }}</td>
+                                <td>{{ log.updated_by }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">No maintenance records yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

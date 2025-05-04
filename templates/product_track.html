@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Product Track{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">🔍 Product Track Log</h2>
+    {% if logs %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Action</th>
+                <th>User ID</th>
+                <th>Reason</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log['item_name'] }}</td>
+                <td>{{ log['action'] }}</td>
+                <td>{{ log['user_id'] }}</td>
+                <td>{{ log.get('note', '') }}</td>
+                <td>{{ log['date'] }}</td>
+                <td>{{ log['time'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No product tracking data available.</p>
+    {% endif %}
+</div>
+{% endblock %}

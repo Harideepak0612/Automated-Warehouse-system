@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Log Summary{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">📊 Inventory Activity Summary</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h5 class="mb-2">Top Users</h5>
+            <canvas id="userChart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h5 class="mb-2">Most Modified Items</h5>
+            <canvas id="itemChart"></canvas>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h5>📌 Summary:</h5>
+        <ul>
+            <li><strong>Total Actions:</strong> {{ total_actions }}</li>
+            <li><strong>Most Active User:</strong> {{ most_active_user }}</li>
+            <li><strong>Most Changed Item:</strong> {{ most_changed_item }}</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const userCounts = {{ user_counts | tojson }};
+    const itemCounts = {{ item_counts | tojson }};
+
+    const userCtx = document.getElementById('userChart').getContext('2d');
+    new Chart(userCtx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(userCounts),
+            datasets: [{
+                label: 'Actions by User',
+                data: Object.values(userCounts),
+                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+        }
+    });
+
+    const itemCtx = document.getElementById('itemChart').getContext('2d');
+    new Chart(itemCtx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(itemCounts),
+            datasets: [{
+                label: 'Changes per Item',
+                data: Object.values(itemCounts),
+                backgroundColor: 'rgba(255, 159, 64, 0.6)'
+            }]
+        }
+    });
+</script>
+{% endblock %}

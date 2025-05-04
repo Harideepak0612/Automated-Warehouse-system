@@ -1,0 +1,442 @@
+[
+    {
+        "item": "thread adapter 1",
+        "action": "add",
+        "user": "receiving1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:32:15"
+    },
+    {
+        "item": "thread adapter 2",
+        "action": "add",
+        "user": "receiving1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:32:40"
+    },
+    {
+        "item": "thread adapter 3",
+        "action": "add",
+        "user": "receiving1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:33:12"
+    },
+    {
+        "item": "Anchor Block 1",
+        "action": "add",
+        "user": "receiving1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:33:35"
+    },
+    {
+        "item": "Anchor Block 2",
+        "action": "add",
+        "user": "receiving1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:33:45"
+    },
+    {
+        "item": "Anchor Block 3",
+        "action": "add",
+        "user": "receiving1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:33:57"
+    },
+    {
+        "item": "Battery plate adapter 1",
+        "action": "add",
+        "user": "receiving1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:34:46"
+    },
+    {
+        "item": "Battery plate adapter 2",
+        "action": "add",
+        "user": "receiving1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:34:57"
+    },
+    {
+        "item": "Battery plate adapter 3",
+        "action": "add",
+        "user": "receiving1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:35:09"
+    },
+    {
+        "item": "thread adapter 3",
+        "action": "putaway",
+        "user": "putaway1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:36:23"
+    },
+    {
+        "item": "Anchor Block 1",
+        "action": "putaway",
+        "user": "putaway1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:36:30"
+    },
+    {
+        "item": "Anchor Block 2",
+        "action": "putaway",
+        "user": "putaway1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:36:38"
+    },
+    {
+        "item": "Anchor Block 3",
+        "action": "putaway",
+        "user": "putaway1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:36:46"
+    },
+    {
+        "item": "Battery plate adapter 1",
+        "action": "putaway",
+        "user": "putaway1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:36:55"
+    },
+    {
+        "item": "Battery plate adapter 2",
+        "action": "putaway",
+        "user": "putaway1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:37:02"
+    },
+    {
+        "item": "Battery plate adapter 3",
+        "action": "putaway",
+        "user": "putaway1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:37:12"
+    },
+    {
+        "item": "thread adapter 3",
+        "action": "picked",
+        "user": "picker1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:38:20"
+    },
+    {
+        "item": "Anchor Block 1",
+        "action": "picked",
+        "user": "picker1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:38:21"
+    },
+    {
+        "item": "Anchor Block 2",
+        "action": "picked",
+        "user": "picker1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:38:21"
+    },
+    {
+        "item": "Anchor Block 3",
+        "action": "picked",
+        "user": "picker1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:38:22"
+    },
+    {
+        "item": "Battery plate adapter 1",
+        "action": "picked",
+        "user": "picker1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:38:22"
+    },
+    {
+        "item": "thread adapter 3",
+        "action": "packed",
+        "user": "packer1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:38:41"
+    },
+    {
+        "item": "Anchor Block 1",
+        "action": "packed",
+        "user": "packer1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:38:42"
+    },
+    {
+        "item": "Anchor Block 2",
+        "action": "packed",
+        "user": "packer1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:38:42"
+    },
+    {
+        "item": "Anchor Block 3",
+        "action": "packed",
+        "user": "packer1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:38:43"
+    },
+    {
+        "item": "thread adapter 3",
+        "action": "shipped",
+        "user": "shipper1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:39:01"
+    },
+    {
+        "item": "Anchor Block 1",
+        "action": "shipped",
+        "user": "shipper1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:39:08"
+    },
+    {
+        "item": "Anchor Block 2",
+        "action": "shipped",
+        "user": "shipper1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:39:13"
+    },
+    {
+        "item": "Anchor Block 3",
+        "action": "shipped",
+        "user": "shipper1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:39:17"
+    },
+    {
+        "item": "thread adapter 3",
+        "action": "delivered",
+        "user": "delivery1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:39:32"
+    },
+    {
+        "item": "Anchor Block 1",
+        "action": "delivered",
+        "user": "delivery1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:39:33"
+    },
+    {
+        "item": "Anchor Block 2",
+        "action": "returned",
+        "user": "delivery1",
+        "reason": "wrong address",
+        "date": "30-04-2025",
+        "time": "10:39:38"
+    },
+    {
+        "item": "Anchor Block 3",
+        "action": "returned",
+        "user": "delivery1",
+        "reason": "wrong component",
+        "date": "30-04-2025",
+        "time": "10:39:45"
+    },
+    {
+        "item": "Anchor Block 2",
+        "action": "restocked",
+        "user": "returns1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:40:04"
+    },
+    {
+        "item": "Anchor Block 3",
+        "action": "damaged",
+        "user": "returns1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:40:07"
+    },
+    {
+        "item": "thread adapter 1",
+        "action": "update",
+        "user": "admin",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:41:01"
+    },
+    {
+        "item": "thread adapter 2",
+        "action": "update",
+        "user": "admin",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "10:41:06"
+    },
+    {
+        "item": "Anchor Block 4",
+        "action": "add",
+        "user": "receiving1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:04:31"
+    },
+    {
+        "item": "Battery plate adapter 4",
+        "action": "add",
+        "user": "receiving1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:04:41"
+    },
+    {
+        "item": "Anchor Block 4",
+        "action": "putaway",
+        "user": "putaway1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:05:04"
+    },
+    {
+        "item": "Battery plate adapter 4",
+        "action": "putaway",
+        "user": "putaway1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:05:12"
+    },
+    {
+        "item": "Battery plate adapter 2",
+        "action": "picked",
+        "user": "picker1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:05:23"
+    },
+    {
+        "item": "Battery plate adapter 3",
+        "action": "picked",
+        "user": "picker1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:05:24"
+    },
+    {
+        "item": "Anchor Block 4",
+        "action": "picked",
+        "user": "picker1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:05:26"
+    },
+    {
+        "item": "Battery plate adapter 1",
+        "action": "packed",
+        "user": "packer1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:05:40"
+    },
+    {
+        "item": "Battery plate adapter 2",
+        "action": "packed",
+        "user": "packer1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:05:41"
+    },
+    {
+        "item": "Battery plate adapter 3",
+        "action": "packed",
+        "user": "packer1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:05:41"
+    },
+    {
+        "item": "Battery plate adapter 1",
+        "action": "shipped",
+        "user": "shipper1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:05:59"
+    },
+    {
+        "item": "Battery plate adapter 2",
+        "action": "shipped",
+        "user": "shipper1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:06:03"
+    },
+    {
+        "item": "Battery plate adapter 3",
+        "action": "shipped",
+        "user": "shipper1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:06:06"
+    },
+    {
+        "item": "Battery plate adapter 1",
+        "action": "delivered",
+        "user": "delivery1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:06:15"
+    },
+    {
+        "item": "Battery plate adapter 2",
+        "action": "returned",
+        "user": "delivery1",
+        "reason": "wrong address",
+        "date": "30-04-2025",
+        "time": "12:06:20"
+    },
+    {
+        "item": "Battery plate adapter 3",
+        "action": "returned",
+        "user": "delivery1",
+        "reason": "wrong component",
+        "date": "30-04-2025",
+        "time": "12:06:23"
+    },
+    {
+        "item": "Battery plate adapter 2",
+        "action": "restocked",
+        "user": "returns1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:07:11"
+    },
+    {
+        "item": "Battery plate adapter 3",
+        "action": "damaged",
+        "user": "returns1",
+        "reason": "",
+        "date": "30-04-2025",
+        "time": "12:07:12"
+    }
+]

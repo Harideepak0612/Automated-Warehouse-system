@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Putaway Items{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">🏷️ Putaway - Assign Category & Location</h2>
+
+    {% if items %}
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Assign Category</th>
+                <th>Storage Location</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <form method="POST">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <input type="text" name="category" class="form-control" placeholder="e.g. Bolts" required>
+                    </td>
+                    <td>
+                        <input type="text" name="location" class="form-control" placeholder="e.g. Rack A1" required>
+                    </td>
+                    <td>
+                        <input type="hidden" name="name" value="{{ item.name }}">
+                        <button type="submit" class="btn btn-success btn-sm">Update</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No items to categorize.</p>
+    {% endif %}
+</div>
+{% endblock %}

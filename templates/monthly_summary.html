@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Monthly Summary{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">📊 Monthly Inventory Summary</h2>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4 text-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">📦 Total Items Added</h5>
+                    <h3 id="totalItems">--</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">📂 Unique Categories</h5>
+                    <h3 id="uniqueCategories">--</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">⚠️ Low Stock Items</h5>
+                    <h3 id="lowStockCount">--</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h5 class="text-center">Category-wise Stock</h5>
+            <canvas id="categoryChart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h5 class="text-center">Stock Added Over Time</h5>
+            <canvas id="trendChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Low Stock Table -->
+    <h5 class="mb-3">Low Stock Items</h5>
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm" id="lowStockTable">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Threshold</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody id="lowStockTableBody"></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("/monthly_summary_data")
+            .then(response => response.json())
+            .then(data => {
+                // Update summary stats
+                document.getElementById("totalItems").innerText = data.total_items;
+                document.getElementById("uniqueCategories").innerText = data.unique_categories;
+                document.getElementById("lowStockCount").innerText = data.low_stock_count;
+
+                // Low stock table
+                const tbody = document.getElementById("lowStockTableBody");
+                data.low_stock_items.forEach(item => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.threshold}</td>
+                        <td>${item.date}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                // Category Chart
+                const catCtx = document.getElementById("categoryChart").getContext("2d");
+                new Chart(catCtx, {
+                    type: "bar",
+                    data: {
+                        labels: Object.keys(data.category_data),
+                        datasets: [{
+                            label: "Stock",
+                            data: Object.values(data.category_data),
+                            backgroundColor: "rgba(54, 162, 235, 0.5)"
+                        }]
+                    }
+                });
+
+                // Trend Chart
+                const trendCtx = document.getElementById("trendChart").getContext("2d");
+                new Chart(trendCtx, {
+                    type: "line",
+                    data: {
+                        labels: Object.keys(data.trend_data),
+                        datasets: [{
+                            label: "Items Added",
+                            data: Object.values(data.trend_data),
+                            borderColor: "rgba(255, 99, 132, 1)",
+                            backgroundColor: "rgba(255, 99, 132, 0.2)",
+                            fill: true
+                        }]
+                    }
+                });
+            })
+            .catch(error => {
+                console.error("Error loading summary data:", error);
+                alert("Error loading dashboard data.");
+            });
+    });
+</script>
+{% endblock %}

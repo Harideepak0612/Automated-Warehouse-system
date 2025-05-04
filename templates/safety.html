@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Safety Log{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">🛡️ Safety Supervisor Panel</h2>
+
+    <form method="POST" class="mb-4">
+        <div class="form-group">
+            <label>Item or Area:</label>
+            <input type="text" name="item" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Issue Description:</label>
+            <textarea name="issue" class="form-control" required></textarea>
+        </div>
+        <div class="form-group">
+            <label>Severity Level:</label>
+            <select name="severity" class="form-control" required>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-danger">Log Issue</button>
+    </form>
+
+    {% if safety_logs %}
+    <h4>Previous Safety Logs</h4>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Item/Area</th>
+                <th>Issue</th>
+                <th>Severity</th>
+                <th>Reported By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in safety_logs %}
+            <tr>
+                <td>{{ log.date }}</td>
+                <td>{{ log.time }}</td>
+                <td>{{ log.item }}</td>
+                <td>{{ log.issue }}</td>
+                <td>{{ log.severity }}</td>
+                <td>{{ log.reported_by }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

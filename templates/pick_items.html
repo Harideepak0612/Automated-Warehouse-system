@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Pick Items{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">📋 Pick List - Items Ready for Picking</h2>
+
+    {% if items %}
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Location</th>
+                <th>Category</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <form method="POST">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.location or "N/A" }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>
+                        <input type="hidden" name="name" value="{{ item.name }}">
+                        <button type="submit" class="btn btn-primary btn-sm">Mark as Picked</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No items ready for picking.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Shipping Coordinator{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">🚚 Assign Delivery Details</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% if items %}
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Total Quantity</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Assign Quantity</th>
+                <th>Delivery Address</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <form method="POST">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>{{ item.location or "N/A" }}</td>
+                    <td>
+                        <input type="number" name="assigned_quantity" class="form-control" min="1" max="{{ item.quantity }}" required>
+                    </td>
+                    <td>
+                        <input type="text" name="address" class="form-control" placeholder="Delivery address" required>
+                    </td>
+                    <td>
+                        <input type="hidden" name="item_id" value="{{ item.doc_id }}">
+                        <button type="submit" class="btn btn-primary btn-sm">Confirm & Ship</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No items available to ship.</p>
+    {% endif %}
+</div>
+{% endblock %}

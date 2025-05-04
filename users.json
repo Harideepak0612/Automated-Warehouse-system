@@ -1,0 +1,50 @@
+{
+    "admin": {
+        "password": "$2b$12$YswVRBmovzyMXKCheHzdf.GC02FaU2FL8a2KpCQe.ENtoBkwXeZ5e",
+        "role": "admin"
+    },
+    "receiving1": {
+        "password": "$2b$12$YswVRBmovzyMXKCheHzdf.GC02FaU2FL8a2KpCQe.ENtoBkwXeZ5e",
+        "role": "receiving_clerk"
+    },
+    "putaway1": {
+        "password": "$2b$12$YswVRBmovzyMXKCheHzdf.GC02FaU2FL8a2KpCQe.ENtoBkwXeZ5e",
+        "role": "putaway_specialist"
+    },
+    "picker1": {
+        "password": "$2b$12$YswVRBmovzyMXKCheHzdf.GC02FaU2FL8a2KpCQe.ENtoBkwXeZ5e",
+        "role": "order_picker"
+    },
+    "packer1": {
+        "password": "$2b$12$YswVRBmovzyMXKCheHzdf.GC02FaU2FL8a2KpCQe.ENtoBkwXeZ5e",
+        "role": "packer"
+    },
+    "shipper1": {
+        "password": "$2b$12$YswVRBmovzyMXKCheHzdf.GC02FaU2FL8a2KpCQe.ENtoBkwXeZ5e",
+        "role": "shipping_coordinator"
+    },
+    "returns1": {
+        "password": "$2b$12$YswVRBmovzyMXKCheHzdf.GC02FaU2FL8a2KpCQe.ENtoBkwXeZ5e",
+        "role": "returns_processor"
+    },
+    "auditor1": {
+        "password": "$2b$12$YswVRBmovzyMXKCheHzdf.GC02FaU2FL8a2KpCQe.ENtoBkwXeZ5e",
+        "role": "inventory_auditor"
+    },
+    "safety1": {
+        "password": "$2b$12$YswVRBmovzyMXKCheHzdf.GC02FaU2FL8a2KpCQe.ENtoBkwXeZ5e",
+        "role": "safety_supervisor"
+    },
+    "manager1 ": {
+        "password": "$2b$12$g4N7nnIYMripGoTe66o0Q.fE3XEB9U3fPqjaXnVjs2bgbLzOBw5XG",
+        "role": "manager"
+    },
+    "delivery1": {
+        "password": "$2b$12$XXfK8v5wfsKfSMj.ZMC8C.t7DQA0.AczQsQTixDC8Ps60Fv6yIDeK",
+        "role": "delivery_driver"
+    },
+    "maintenance1": {
+        "password": "$2b$12$sTsD0gUFDMcFkXvz.sPVM.qGzQsfgkzxEqq7pxDHT5LJ1NbFdZlt6",
+        "role": "maintenance_technician"
+    }
+}

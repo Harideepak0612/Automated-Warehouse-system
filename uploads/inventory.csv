@@ -1,0 +1,4 @@
+name,quantity,date,category,status
+bolt X,120,19-03-2025,bolt,received
+nut Y,75,19-03-2025,nuts,received
+tool Z,30,19-03-2025,tools,received

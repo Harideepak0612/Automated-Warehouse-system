@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">📊 Inventory Overview</h2>
+    <!-- ABC Classification Chart -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    ABC Classification Distribution
+                </div>
+                <div class="card-body">
+                    <canvas id="abcChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Dashboard Charts -->
+    <div class="row">
+        <!-- Category Stock Chart -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    Category-wise Stock
+                </div>
+                <div class="card-body">
+                    <canvas id="categoryStockChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Trend Chart -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    Stock Trend (Last 30 Days)
+                </div>
+                <div class="card-body">
+                    <canvas id="stockTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Low Stock Items -->
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            Low Stock Alerts
+        </div>
+        <div class="card-body">
+            <ul id="lowStockList" class="list-group">
+                <!-- Filled by JS -->
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Define ABC values from backend (Jinja-safe JS)
+    const abcCounts = {
+        A: {{ abc_counts['A'] | default(0) }},
+        B: {{ abc_counts['B'] | default(0) }},
+        C: {{ abc_counts['C'] | default(0) }}
+    };
+
+    // ABC Classification Chart
+    const abcChart = new Chart(document.getElementById("abcChart"), {
+        type: "bar",
+        data: {
+            labels: ['Class A', 'Class B', 'Class C'],
+            datasets: [{
+                label: 'ABC Classification',
+                data: [abcCounts.A, abcCounts.B, abcCounts.C],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    
+    // Fetch and build other dashboard charts
+    fetch("/inventory_stats")
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            // Category-wise Stock Chart
+            const categoryChart = new Chart(document.getElementById("categoryStockChart").getContext("2d"), {
+                type: "bar",
+                data: {
+                    labels: Object.keys(data.category_stock),
+                    datasets: [{
+                        label: "Stock by Category",
+                        data: Object.values(data.category_stock),
+                        backgroundColor: "rgba(54, 162, 235, 0.6)"
+                    }]
+                }
+            });
+
+            // ABC Classification Pie Chart
+            const abcPieChart = new Chart(document.getElementById("abcPieChart"), {
+                type: "pie",
+                data: {
+                    labels: ['Class A', 'Class B', 'Class C'],
+                    datasets: [{
+                        data: [abcCounts.A, abcCounts.B, abcCounts.C],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)'
+                        ],
+                        borderColor: 'rgba(255, 255, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Stock Trend Chart
+            const trendChart = new Chart(document.getElementById("stockTrendChart").getContext("2d"), {
+                type: "line",
+                data: {
+                    labels: Object.keys(data.stock_trend),
+                    datasets: [{
+                        label: "Stock Trend",
+                        data: Object.values(data.stock_trend),
+                        borderColor: "rgba(255, 99, 132, 0.8)",
+                        backgroundColor: "rgba(255, 99, 132, 0.2)",
+                        fill: true,
+                        tension: 0.3
+                    }]
+                }
+            });
+
+            // Low Stock List
+            const list = document.getElementById("lowStockList");
+            data.low_stock_items.forEach(item => {
+                const li = document.createElement("li");
+                li.className = "list-group-item d-flex justify-content-between align-items-center";
+                li.innerHTML = `
+                    <span><strong>${item.name}</strong> - ${item.quantity} left</span>
+                    <span class="badge badge-warning">Threshold: ${item.threshold}</span>
+                `;
+                list.appendChild(li);
+            });
+        })
+        .catch(err => {
+            console.error("Dashboard data load error:", err);
+            alert("Error loading dashboard data.");
+        });
+});
+</script>
+{% endblock %}
+
+

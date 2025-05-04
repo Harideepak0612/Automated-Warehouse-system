@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Inventory Adjustment{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">⚖️ Inventory Adjustment</h2>
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Current Quantity</th>
+                <th>New Quantity</th>
+                <th>Reason</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <form method="POST">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <select name="operation" class="form-control" required>
+                            <option value="add">Add to Stock</option>
+                            <option value="subtract">Subtract from Stock</option>
+                        </select>
+                        
+                        <input type="number" name="quantity" class="form-control mt-2" placeholder="Enter amount" required>
+                        
+                    </td>
+                    <td>
+                        <input type="text" name="reason" class="form-control" placeholder="e.g. damaged, audit" required>
+                    </td>
+                    <td>
+                        <input type="hidden" name="name" value="{{ item.name }}">
+                        <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to adjust this item?')">Adjust</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

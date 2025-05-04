@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Pack Items{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">🎁 Packing Area - Pack Picked Items</h2>
+
+    {% if items %}
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <form method="POST">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>{{ item.location or "N/A" }}</td>
+                    <td>
+                        <input type="hidden" name="name" value="{{ item.name }}">
+                        <button type="submit" class="btn btn-success btn-sm">Mark as Packed</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No items ready for packing.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Process Returns{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">🔁 Process Returned Items</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% if items %}
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Item ID</th>
+                <th>Name</th>
+                <th>Returned Qty</th>
+                <th>Reason</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <form method="POST">
+                    <td>{{ item.doc_id }}
+                        <input type="hidden" name="item_id" value="{{ item.doc_id }}">
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.assigned_quantity }}</td>
+                    <td>{{ item.return_reason or 'N/A' }}</td>
+                    <td>
+                        <select name="action" class="form-select form-select-sm me-2" required>
+                            <option value="restock">Restock</option>
+                            <option value="damaged">Mark as Damaged</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm mt-1">Process</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No returned items to process.</p>
+    {% endif %}
+</div>
+{% endblock %}
